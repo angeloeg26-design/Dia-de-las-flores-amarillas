@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05040a">
+<title>Feliz Día de las Flores Amarillas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <canvas id="scene"></canvas>
+
+  <div id="vignette"></div>
+
+  <!-- Pantalla inicial -->
+  <div id="intro">
+    <div id="introGlyph">✨</div>
+    <div id="introText">Toca para iniciar</div>
+  </div>
+
+  <!-- Capa de texto principal -->
+  <div id="overlay">
+    <header id="titleBlock">
+      <h1 id="titleMain">Feliz Día de las Flores</h1>
+      <h2 id="titleSub">Amarillas <span class="flowerGlyph">🌻</span></h2>
+    </header>
+
+    <p id="phraseText"></p>
+
+    <div id="finalMessage">
+      <span id="finalMessageText">Te quiero</span>
+      <span id="finalHeartGlyph">❤️</span>
+    </div>
+
+    <div id="restartHint">Toca para revivir este momento</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
