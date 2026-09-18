@@ -6,14 +6,14 @@
    cada despliegue fuerza además una limpieza total de la caché.
    ============================================================= */
 
-const CACHE_VERSION = 'flores-amarillas-v2';
+const CACHE_VERSION = 'flores-amarillas-v3';
 
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './script.js',
-  './audio/flores-amarillas.mp3'
+  './flores-amarillas.mp3'
 ];
 
 self.addEventListener('install', event => {
