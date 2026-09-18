@@ -6,7 +6,7 @@
    cada despliegue fuerza además una limpieza total de la caché.
    ============================================================= */
 
-const CACHE_VERSION = 'flores-amarillas-v1';
+const CACHE_VERSION = 'flores-amarillas-v2';
 
 const ASSETS = [
   './',
