@@ -40,5 +40,12 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => { /* sin SW, la página sigue funcionando igual */ });
+      });
+    }
+  </script>
 </body>
 </html>
