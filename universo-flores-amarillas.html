@@ -1612,7 +1612,19 @@ body.dragging{ cursor: grabbing; }
     hintTimer = setTimeout(() => hintEl.classList.remove('visible'), 10000);
   }
 
-  introEl.addEventListener('pointerdown', start);
+  // 'click' (no 'pointerdown'/'touchstart') es el evento que Safari reconoce
+  // de forma fiable como gesto del usuario para desbloquear audio.
+  introEl.addEventListener('click', start);
+
+  // Red de seguridad: si el navegador aun así bloqueó el play() inicial,
+  // se reintenta en el primer click/touchend posterior en cualquier parte.
+  function intentoDeRescate() {
+    if (started && bgm && bgm.paused && !silenciado) {
+      bgm.play().then(() => fadeAudio(VOLUMEN, 1200)).catch(() => {});
+    }
+  }
+  document.addEventListener('click', intentoDeRescate);
+  document.addEventListener('touchend', intentoDeRescate);
 
   drawBackground(ctx);
   requestAnimationFrame(loop);
