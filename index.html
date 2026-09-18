@@ -26,10 +26,17 @@
   <!-- Brújula sutil: señala hacia el corazón si te alejas mucho -->
   <div id="compass"><span id="compassArrow">➜</span></div>
 
+  <!-- Música de fondo: sólo arranca tras el toque inicial -->
+  <audio id="bgm" src="audio/flores-amarillas.mp3" loop preload="auto" playsinline></audio>
+
+  <!-- Control de sonido discreto -->
+  <button id="soundToggle" type="button" aria-label="Activar o silenciar la música">♪</button>
+
   <!-- Pantalla inicial -->
   <div id="intro">
     <div id="introGlyph">✨</div>
     <div id="introText">Toca para entrar</div>
+    <div id="introNote">con sonido</div>
   </div>
 
   <script src="script.js"></script>

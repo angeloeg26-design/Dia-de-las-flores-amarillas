@@ -19,6 +19,8 @@
   const hintEl = document.getElementById('hint');
   const compassEl = document.getElementById('compass');
   const compassArrow = document.getElementById('compassArrow');
+  const bgm = document.getElementById('bgm');
+  const soundToggle = document.getElementById('soundToggle');
 
   let W = 0, H = 0, DPR = 1;
 
@@ -1250,7 +1252,73 @@
   }
 
   /* =========================================================
-     16. ARRANQUE
+     16. MÚSICA DE FONDO
+     Nunca arranca sola: sólo tras el toque inicial del usuario.
+     ========================================================= */
+
+  const VOLUMEN = 0.42;          // suave, de fondo
+  let fadeTimer = null;
+  let silenciado = false;
+
+  function fadeAudio(destino, ms, alTerminar) {
+    if (!bgm) return;
+    if (fadeTimer) clearInterval(fadeTimer);
+    const desde = bgm.volume;
+    const pasos = Math.max(1, Math.round(ms / 50));
+    let i = 0;
+    fadeTimer = setInterval(() => {
+      i++;
+      bgm.volume = clamp(desde + (destino - desde) * (i / pasos), 0, 1);
+      if (i >= pasos) {
+        clearInterval(fadeTimer);
+        fadeTimer = null;
+        if (alTerminar) alTerminar();
+      }
+    }, 50);
+  }
+
+  function iniciarMusica() {
+    if (!bgm) return;
+    bgm.volume = 0;
+    const intento = bgm.play();
+    if (intento && typeof intento.catch === 'function') {
+      intento.then(() => fadeAudio(VOLUMEN, 2600))
+             .catch(() => { /* el navegador la bloqueó: el toggle deja reintentarlo */ });
+    } else {
+      fadeAudio(VOLUMEN, 2600);
+    }
+  }
+
+  function alternarSonido() {
+    if (!bgm) return;
+    if (silenciado) {
+      silenciado = false;
+      soundToggle.classList.remove('muted');
+      soundToggle.textContent = '\u266a';
+      if (bgm.paused) bgm.play().catch(() => {});
+      fadeAudio(VOLUMEN, 900);
+    } else {
+      silenciado = true;
+      soundToggle.classList.add('muted');
+      soundToggle.textContent = '\u266a\u0338';
+      fadeAudio(0, 700, () => bgm.pause());
+    }
+  }
+
+  if (soundToggle) {
+    soundToggle.addEventListener('click', e => { e.stopPropagation(); alternarSonido(); });
+    soundToggle.addEventListener('pointerdown', e => e.stopPropagation());
+  }
+
+  // al salir de la pestaña se baja; al volver, se recupera
+  document.addEventListener('visibilitychange', () => {
+    if (!bgm || silenciado || !started) return;
+    if (document.hidden) fadeAudio(0, 400, () => bgm.pause());
+    else { bgm.play().catch(() => {}); fadeAudio(VOLUMEN, 1200); }
+  });
+
+  /* =========================================================
+     17. ARRANQUE
      ========================================================= */
 
   let hintTimer = null;
@@ -1265,6 +1333,8 @@
     introEl.classList.add('hidden');
     setTimeout(() => { introEl.style.display = 'none'; }, 1700);
     titleEl.classList.add('visible');
+    iniciarMusica();
+    setTimeout(() => soundToggle && soundToggle.classList.add('visible'), 2200);
 
     touchBurst(cam.x, cam.y - 60);
     // viaje suave de entrada hacia el corazón del mundo

@@ -184,3 +184,41 @@ body.dragging{ cursor: grabbing; }
   0%,100%{ opacity:.55; }
   50%{ opacity:.95; }
 }
+
+/* ---------- Sonido ---------- */
+
+#introNote{
+  font-size: clamp(9px, 2.4vw, 11px);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .32;
+  margin-top: -6px;
+}
+
+#soundToggle{
+  position: fixed;
+  z-index: 11;
+  top: max(16px, calc(env(safe-area-inset-top) + 6px));
+  right: max(16px, calc(env(safe-area-inset-right) + 6px));
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 200, 110, .07);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.4s ease, color .4s ease, background .4s ease;
+  text-shadow: 0 0 10px rgba(255, 200, 110, .55);
+  -webkit-tap-highlight-color: transparent;
+}
+
+#soundToggle.visible{ opacity: .42; pointer-events: auto; }
+#soundToggle:hover{ opacity: .8; }
+#soundToggle.muted{ color: #9a8258; text-shadow: none; }
